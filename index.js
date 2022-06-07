@@ -24,49 +24,41 @@ resetGame.addEventListener('click', reset);
 //This function compare the user input and random number for a match
 //It also help with updating score, guess number, message display and highscore
 function checkNumber() {
-    randomNum = (Math.random() * 21).toFixed(0);
-    randomNumber.textContent = `${randomNum}`;
-   let num = Number(number.value);
+    
+    randomNum = (Math.random() * 21).toFixed(0); // generate random number and fix to two decimal places
+    randomNumber.textContent = `${Number(randomNum)}`; //convert to number
+    let num = Number(number.value); // get number value
   
-   
    if(!num){
        message.textContent = `🛑 No Number!`;
    }
-   else if(num < 0 || num > 20){
-      message.textContent = `⚠ Guess a number between 0 and 20`;
-   }
-   else{
-    scor --;
-   if(num === randomNum){
+   
+   // Perform some operations if user input  == random number
+   if(num == randomNum){
+       scor > hScore ? hScore = scor : hScore = hScore;
+       let maxx = hScore;
        root.style.background = 'green';
        number.style.background = 'green';
        number.style.color = '#eee';
        message.textContent = `🎉 Correct number!`;
-       scor > hScore ? highScore.textContent = `🏅 Highscore: ${scor}` : highScore.textContent = `🏅 Highscore: ${hScore}`;
+       highScore.textContent = `🏅 High score: ${maxx}`;
+       score.textContent = `💯 Score: ${scor}`;
    }
-  
-   else if(num < randomNum){
-        root.style.background = 'black';
-        if(scor > 0) {
-        message.textContent = `📉 Too low!`;
-        score.textContent = `💯 Score: ${scor}`;
-        } else{
+   else{
+       scor--;
+       //Help alternate if number is low or high and set display accordingly
+        if(scor > 0) message.textContent = num > randomNum ? `📈 Too high!` : `📉 Too low!`;
+        else{
         scor = 0;
-        message.textContent = `🎇 You lost the game!`;
-        score.textContent = `💯 Score: ${scor}`;
+        message.textContent = `🎇 You lost the game!`; 
        }
-   }else{
-       root.style.background = 'black';
-       if(scor > 0) {
-        message.textContent = `📈 Too high!`;
-        score.textContent = `💯 Score: ${scor}`;
-        } else{
-        scor = 0;
-        message.textContent = `🎇 You lost the game!`;
-        score.textContent = `💯 Score: ${scor}`;
-       }
-   }}
-}
+       //This line of codes helps to display score, change background color of body and user input
+       score.textContent = `💯 Score: ${scor}`;
+       root.style.background = '#222';
+       number.style.background = '#222';
+   }
+   }
+
 
 //This function helps us to reset the game
 function reset(){
